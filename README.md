@@ -1,12 +1,12 @@
 # Simple way to create your own certificate authority
 
 This is for development purposes, if you are tired of the "invalid certificate"
-warnings in browsers. This happens when you ue server certificates that are not
+warnings in browsers. This happens when you use server certificates that are not
 signed by a known certificate authority (CA).
 
 Quick usage:
 
-```shell
+```
 ./generate-server-key.sh server-name
 ```
 
@@ -30,37 +30,29 @@ To actually use the generated certificate, you must do two things:
   Certificates", choose tab "Authorities", click button "Import.." and choose
   the ca.crt file.
 * Make your web server use the server certificate. Consult the docs of your web
-  server for how to do it; e.g. for Nginx, the server section will look something
+  server for how to do it; e.g. for Nginx, the `server` section will look something
   like this (replace "my-server.local" with your server name, and copy the 
   `my-server.local.crt` and `my-server.local.key` files to `/etc/nginx/ssl`):
-```nginx.conf
+```
 server {
     listen              443 ssl;
     listen              [::]:443 ssl;
     server_name         my-server.local;
     keepalive_timeout   70;
 
-	root /var/www/html;
-
-	index index.html index.htm;
-
-	location / {
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
-	}
-
     ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers         AES128-SHA:AES256-SHA:RC4-SHA:DES-CBC3-SHA:RC4-MD5;
     ssl_certificate     /etc/nginx/ssl/my-server.local.crt;
     ssl_certificate_key /etc/nginx/ssl/my-server.local.key;
     ssl_session_cache   shared:SSL:10m;
+    
+    # More nginx configuration ...
 }
 ```
 * Tell your computer the IP of the server name that you used; the easiest way to
   do this is to add a line like the following (change `my-server.local` to your
   server name) to the `/etc/hosts` file:
-```hosts
+```
 127.0.1.2 my-server.local
 ```
 
