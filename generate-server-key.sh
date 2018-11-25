@@ -10,8 +10,11 @@ fi
 
 SERVER_NAME="$1"
 
-# Create CA files if they are missing; set CA_NAME environment variable
-. ./generate-ca.sh
+if ! test -f ./certificate-authority.conf; then
+    # Create CA files if they are missing; set CA_NAME environment variable
+    ./generate-ca.sh
+fi
+. ./certificate-authority.conf
 
 if ! test -f "${SERVER_NAME}".key; then
     # Generate key for server
