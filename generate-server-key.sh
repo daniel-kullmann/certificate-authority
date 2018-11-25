@@ -37,7 +37,3 @@ else
     echo "${SERVER_NAME}".crt exists already.
 fi
 
-# Combine server certificate and CA certificate to make a certificate chain
-# TODO I am not sure if this step is necessary..
-cat "${SERVER_NAME}".crt "${CA_NAME}".crt > "${SERVER_NAME}"-combined.crt
-
