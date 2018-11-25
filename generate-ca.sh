@@ -1,9 +1,15 @@
 #!/bin/sh
 # How to generate your own certificate authority
 
-CA_NAME="daniel-ca"
-
 set -e -u
+
+if test -f "certificate-authority.conf"; then
+    . ./certificate-authority.conf
+else
+    echo -n "Please enter name of certificate authority (e.g. myca):"
+    read CA_NAME
+    echo "CA_NAME='$CA_NAME'" > ./certificate-authority.conf
+fi
 
 if ! test -f "${CA_NAME}".key; then
     # Generate key for certificate authority (CA)
