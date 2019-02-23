@@ -27,7 +27,7 @@ fi
 if ! test -f "${SERVER_NAME}".csr; then
     # Generate certificate signing request (CSR) for that key
     # Make sure to use the server's name as FQDN
-    openssl req -new -key "${SERVER_NAME}".key -out "${SERVER_NAME}".csr
+    openssl req -new -days 365 -key "${SERVER_NAME}".key -out "${SERVER_NAME}".csr
 else
     echo "${SERVER_NAME}".csr exists already.
 fi
